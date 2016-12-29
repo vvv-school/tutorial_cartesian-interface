@@ -18,12 +18,13 @@ make && cd ../
 export YARP_DATA_DIRS=$YARP_DATA_DIRS:$(pwd)
 
 # to make the test library retrievable
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(pwd)/build-test
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(pwd)/build-test/plugins
 
 if ! yarp where
 then
    kill_yarp="yes"
    yarpserver --write &
+   sleep 1
 else
    kill_yarp="no"
 fi

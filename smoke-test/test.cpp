@@ -23,19 +23,19 @@ using namespace yarp::sig;
 using namespace yarp::math;
 
 /**********************************************************************/
-class testTutorialCartesianInterface : public YarpTestCase
+class TestTutorialCartesianInterface : public YarpTestCase
 {
     yarp::dev::PolyDriver drvCartArm;
 
 public:
     /******************************************************************/
-    testTutorialCartesianInterface() :
+    TestTutorialCartesianInterface() :
         YarpTestCase("testTutorialCartesianInterface")
     {
     }
     
     /******************************************************************/
-    virtual ~testTutorialCartesianInterface()
+    virtual ~TestTutorialCartesianInterface()
     {
     }
     
@@ -64,43 +64,38 @@ public:
     
     /******************************************************************/
     virtual void run()
-    {
+    {        
+        Vector c(3),od(4);
+        c[0]=-0.3; c[1]=-0.1; c[2]=0.1;
+        double R=0.1;
+        
         ICartesianControl *iarm;
         drvCartArm.view(iarm);
         
-        Vector x0,o0;
-        iarm->getPose(x0,o0);
-
+        Vector x0;
         Time::delay(5.0);
         
-        Vector c(3),od(4);
-        c[0]=-0.3; c[1]=-0.1; c[2]=+0.1;
-        od[0]=0.0; od[1]=0.0; od[2]=1.0; od[3]=M_PI;
-        double R=0.1;
-        
         RTF_TEST_REPORT("Checking the trajectory of the end-effector");
-        
-        bool success=true;
-        for (double t0=Time::now(); Time::now()-t0<5.0; Time::delay(0.5))
+        double t0=Time::now();
+        for (int i=0; Time::now()-t0<5.0; i++)
         {
             Vector x1,o1;
             iarm->getPose(x1,o1);
                         
             double d=norm(x1-c);
-            if ((norm(x1-x0)<0.005) ||
-                (d>1.2*R) || (d<0.8*R) ||
-                (norm(od-o1)>0.1))
-            {
-                success=false;
-                break;
-            }
+            
+            if (i>0)
+                RTF_ASSERT_ERROR_IF(norm(x1-x0)<0.01,"The arm seems stationary!");
+            RTF_ASSERT_ERROR_IF(d>1.2*R,Asserter::format("Arm too far from the center! d=%g [m]",d));
+            RTF_ASSERT_ERROR_IF(d<0.8*R,Asserter::format("Arm too close to the center! d=%g [m]",d));
             
             x0=x1;
-            o0=o1;
+            
+            Time::delay(0.5);
         }
         
-        RTF_TEST_CHECK(success,"Test Passed!");
+        RTF_TEST_CHECK(true,"Test Passed!");
     }
 };
 
-PREPARE_PLUGIN(testTutorialCartesianInterface)
+PREPARE_PLUGIN(TestTutorialCartesianInterface)

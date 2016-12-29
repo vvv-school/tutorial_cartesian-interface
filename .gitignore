@@ -1,5 +1,6 @@
 # Build products
-/build*/
+build*
+result.txt
 
 # Linux temp files
 *~

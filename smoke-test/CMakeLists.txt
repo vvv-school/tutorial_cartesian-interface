@@ -5,7 +5,10 @@
 cmake_minimum_required(VERSION 2.8.9)
 
 # set the project name
-project(testTutorialCartesianInterface)
+project(TestTutorialCartesianInterface)
+
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/plugins)
+set(CMAKE_SHARED_MODULE_PREFIX "")
 
 # add the required cmake packages
 find_package(RTF)
@@ -28,9 +31,3 @@ add_definitions(-D_USE_MATH_DEFINES)
 
 # add the source codes to build the plugin library
 add_library(${PROJECT_NAME} MODULE test.cpp)
-
-# set the installation options
-install(TARGETS ${PROJECT_NAME}
-        EXPORT ${PROJECT_NAME}
-        COMPONENT runtime
-        LIBRARY DESTINATION lib)
