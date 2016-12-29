@@ -1,0 +1,14 @@
+<application>
+
+  <name>Tutorial on Cartesian Interface App</name>
+
+  <dependencies>
+      <port>/icubSim/cartesianController/left_arm/state:o</port>
+  </dependencies>
+
+  <module>
+      <name>tutorial-cartesian-interface</name>
+      <node>localhost</node>
+  </module>
+
+</application>
