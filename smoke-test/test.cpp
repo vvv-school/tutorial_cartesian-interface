@@ -5,6 +5,7 @@
 */
 
 #include <string>
+#include <cmath>
 #include <algorithm>
 
 #include <rtf/yarp/YarpTestCase.h>
@@ -64,37 +65,45 @@ public:
     
     /******************************************************************/
     virtual void run()
-    {        
-        Vector c(3),od(4);
-        c[0]=-0.3; c[1]=-0.1; c[2]=0.1;
-        double R=0.1;
-        
+    {   
         ICartesianControl *iarm;
         drvCartArm.view(iarm);
-        
-        Vector x0;
-        Time::delay(5.0);
+     
+        Vector c(3),od(4);
+        c[0]=-0.3; c[1]=-0.1; c[2]=0.1;
+                
+        double mean_x=0;
+        double stdev_x=0;
+        double mean_v=0;
+        int N=0;
+
+        Time::delay(5.0);        
         
         RTF_TEST_REPORT("Checking the trajectory of the end-effector");
-        double t0=Time::now();
-        for (int i=0; Time::now()-t0<5.0; i++)
+        for (double t0=Time::now(); Time::now()-t0<10.0; N++)
         {
-            Vector x1,o1;
-            iarm->getPose(x1,o1);
-                        
-            double d=norm(x1-c);
-            
-            if (i>0)
-                RTF_ASSERT_ERROR_IF(norm(x1-x0)<0.01,"The arm seems stationary!");
-            RTF_ASSERT_ERROR_IF(d>1.2*R,Asserter::format("Arm too far from the center! d=%g [m]",d));
-            RTF_ASSERT_ERROR_IF(d<0.8*R,Asserter::format("Arm too close to the center! d=%g [m]",d));
-            
-            x0=x1;
-            
-            Time::delay(0.5);
+            Vector x,o,xdot,qdot;
+            iarm->getPose(x,o);
+            iarm->getTaskVelocities(xdot,qdot);
+
+            double d=norm(x-c);
+            mean_x+=d;
+            stdev_x+=d*d;
+            mean_v+=norm(xdot);
+
+            Time::delay(0.1);
         }
+
+        mean_x/=N;
+        stdev_x=sqrt(stdev_x/N-mean_x*mean_x);
+        mean_v/=N;
         
-        RTF_TEST_CHECK(true,"Test Passed!");
+        RTF_TEST_REPORT(Asserter::format("velocity mean = %g [m]",mean_v));
+        RTF_TEST_CHECK(mean_v>0.01,"Unsteadiness Test Passed!");
+        
+        RTF_TEST_REPORT(Asserter::format("mean distance from the center = %g [m]",mean_x));
+        RTF_TEST_REPORT(Asserter::format("stdev distance from the center = %g [m]",stdev_x));        
+        RTF_TEST_CHECK(stdev_x<0.01,"Roundness Test Passed!");
     }
 };
 
