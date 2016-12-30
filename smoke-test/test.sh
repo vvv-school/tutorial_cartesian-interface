@@ -48,8 +48,8 @@ make uninstall && cd ../
 
 cat output.txt
 
-ok=$(grep -i "Number of passed test cases" output.txt | sed 's/[^0-9]*//g')
-if [ $ok -eq 0 ]; then
+npassed=$(grep -i "Number of passed test cases" output.txt | sed 's/[^0-9]*//g')
+if [ $npassed -eq 0 ]; then
    echo "xxxxx Test FAILED xxxxx"
    exit 3
 else
