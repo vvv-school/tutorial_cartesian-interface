@@ -15,10 +15,18 @@ cmake -DCMAKE_BUILD_TYPE=Release ../
 make && cd ../
 
 # to let yarpmanager access the fixture
-export YARP_DATA_DIRS=$YARP_DATA_DIRS:$(pwd)
+if [ -z "$YARP_DATA_DIRS" ]; then
+	export YARP_DATA_DIRS=$(pwd)
+else
+	export YARP_DATA_DIRS=${YARP_DATA_DIRS}:$(pwd)
+fi
 
 # to make the test library retrievable
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(pwd)/build-test/plugins
+if [ -z "$LD_LIBRARY_PATH" ]; then
+	export LD_LIBRARY_PATH=$(pwd)/build-test/plugins
+else
+	export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$(pwd)/build-test/plugins
+fi
 
 if ! yarp where
 then
