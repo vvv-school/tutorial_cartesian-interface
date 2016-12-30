@@ -173,12 +173,14 @@ public:
 
             // we get the current arm pose in the
             // operational space
-            arm->getPose(x,o);
+            if (!arm->getPose(x,o))
+                return;
 
             // we get the final destination of the arm
             // as found by the solver: it differs a bit
             // from the desired pose according to the tolerances
-            arm->getDesired(xdhat,odhat,qdhat);
+            if (!arm->getDesired(xdhat,odhat,qdhat))
+                return;
 
             double e_x=norm(xdhat-x);
             double e_o=norm(odhat-o);
