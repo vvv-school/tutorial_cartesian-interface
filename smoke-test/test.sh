@@ -37,7 +37,7 @@ else
    sleep 1 
 fi
 
-testrunner --verbose --suit test.xml
+testrunner --verbose --suit test.xml > output.txt
 
 if [ "$kill_yarp" == "yes" ]; then
    killall yarpserver
@@ -45,3 +45,14 @@ fi
 
 cd build
 make uninstall && cd ../
+
+cat output.txt
+
+ok=$(grep -i "Number of passed test cases" output.txt | sed 's/[^0-9]*//g')
+if [ $ok -eq 0 ]; then
+   echo "xxxxx Test FAILED xxxxx"
+   exit 3
+else
+   echo "===== Test PASSED ====="
+   exit 0
+fi

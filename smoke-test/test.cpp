@@ -31,7 +31,7 @@ class TestTutorialCartesianInterface : public YarpTestCase
 public:
     /******************************************************************/
     TestTutorialCartesianInterface() :
-        YarpTestCase("testTutorialCartesianInterface")
+        YarpTestCase("TestTutorialCartesianInterface")
     {
     }
     
