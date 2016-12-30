@@ -3,15 +3,34 @@
 # Copyright: (C) 2016 iCub Facility - Istituto Italiano di Tecnologia
 # Authors: Ugo Pattacini <ugo.pattacini@iit.it>
 # CopyPolicy: Released under the terms of the GNU GPL v3.0.
+#
+# --- Usage:
+# ./test.sh <path-to-smoke-test>
+#
+# if <path-to-smoke-test> is empty, ./ is taken as input
+# 
+# --- Exit codes:
+# 0: test passed
+# 1: the code under test doesn't compile 
+# 2: the test itself doesn't compile
+# 3: test failed
+
+dir=$(pwd)
+if [ $# -gt 1 ]; then   
+    cd $1
+fi
 
 rm build -rf
 mkdir build && cd build
 cmake -DCMAKE_BUILD_TYPE=Release ../../
+if [ $? -ne 0 ]; then
+   exit 1
+fi
 make install
 if [ $? -ne 0 ]; then
    exit 1
 fi
-cd ../
+cd $dir
 
 rm build-test -rf
 mkdir build-test && cd build-test
@@ -48,11 +67,15 @@ make uninstall && cd ../
 
 cat output.txt
 
+red='\033[1;31m'
+green='\033[1;32m'
+nc='\033[0m'
+
 npassed=$(grep -i "Number of passed test cases" output.txt | sed 's/[^0-9]*//g')
-if [ $npassed -eq 0 ]; then
-   echo "xxxxx Test FAILED xxxxx"
+if [ $npassed -eq 0 ]; then   
+   echo -e "${red}xxxxx Test FAILED xxxxx${nc}"
    exit 3
-else
-   echo "===== Test PASSED ====="
+else   
+   echo -e "${green}===== Test PASSED =====${nc}"
    exit 0
 fi
