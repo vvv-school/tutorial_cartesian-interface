@@ -71,10 +71,10 @@ public:
      
         Vector c(3),od(4);
         c[0]=-0.3; c[1]=-0.1; c[2]=0.1;
-                
-        double mean_x=0;
-        double stdev_x=0;
+
         double mean_v=0;
+        double mean_x=0;
+        double stdev_x=0;        
         int N=0;
 
         Time::delay(5.0);        
@@ -87,16 +87,17 @@ public:
             iarm->getTaskVelocities(xdot,qdot);
 
             double d=norm(x-c);
-            mean_x+=d;
-            stdev_x+=d*d;
+            
             mean_v+=norm(xdot);
+            mean_x+=d;
+            stdev_x+=d*d;            
 
             Time::delay(0.1);
         }
 
-        mean_x/=N;
-        stdev_x=sqrt(stdev_x/N-mean_x*mean_x);
         mean_v/=N;
+        mean_x/=N;
+        stdev_x=sqrt(stdev_x/N-mean_x*mean_x);        
         
         RTF_TEST_REPORT(Asserter::format("velocity mean = %g [m]",mean_v));
         RTF_TEST_CHECK(mean_v>0.01,"Unsteadiness Test Passed!");
