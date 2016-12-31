@@ -7,9 +7,6 @@
     </authors>
     <module>
         <name>iCub_SIM</name>
-        <ensure>
-            <wait>5</wait>
-        </ensure>
         <node>localhost</node>
     </module>
     <module>
