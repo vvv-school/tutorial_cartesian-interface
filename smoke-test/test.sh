@@ -3,17 +3,6 @@
 # Copyright: (C) 2016 iCub Facility - Istituto Italiano di Tecnologia
 # Authors: Ugo Pattacini <ugo.pattacini@iit.it>
 # CopyPolicy: Released under the terms of the GNU GPL v3.0.
-#
-# --- Usage:
-# ./test.sh <path-to-smoke-test>
-#
-# if <path-to-smoke-test> is empty, ./ is taken as input
-# 
-# --- Exit codes:
-# 0: test passed
-# 1: the code under test doesn't compile 
-# 2: the test itself doesn't compile
-# 3: test failed
 
 dir=$(pwd)
 if [ $# -gt 1 ]; then   
