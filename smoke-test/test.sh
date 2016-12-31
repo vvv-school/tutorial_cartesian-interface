@@ -62,10 +62,10 @@ nc='\033[0m'
 
 npassed=$(grep -i "Number of passed test cases" output.txt | sed 's/[^0-9]*//g')
 if [ $npassed -eq 0 ]; then   
-   echo -e "${red}xxxxx Test FAILED xxxxx${nc}"
+   echo -e "${red}xxxxx Test FAILED xxxxx${nc}\n"
    exit 3
 else
-   echo -e "${green}===== Test PASSED =====${nc}"
+   echo -e "${green}===== Test PASSED =====${nc}\n"
    exit 0
 fi
-echo ""
+
