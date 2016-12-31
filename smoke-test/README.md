@@ -3,9 +3,9 @@
 
 ### Usage
 ```sh
-$ ./test.sh <path-to-smoke-test>
+$ ./test.sh [path-to-smoke-test]
 ```
-If the option `<path-to-smoke-test>` is empty, then the current directory
+If the option `path-to-smoke-test` is not given, then the current directory
 `./` is taken as input.
  
 ### Exit Codes
