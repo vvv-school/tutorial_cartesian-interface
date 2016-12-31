@@ -26,7 +26,7 @@ using namespace yarp::math;
 /**********************************************************************/
 class TestTutorialCartesianInterface : public YarpTestCase
 {
-    yarp::dev::PolyDriver drvCartArm;
+    PolyDriver drvCartArm;
 
 public:
     /******************************************************************/
