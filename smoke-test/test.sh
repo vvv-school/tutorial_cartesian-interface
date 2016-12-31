@@ -42,13 +42,26 @@ if [ $? -eq 0 ]; then
 else
    kill_yarp="yes"
    yarpserver --write &
-   sleep 1 
+   sleep 1
+fi
+
+yarp exists /testnode
+if [ $? -eq 0 ]; then
+   kill_testnode="no"
+else
+   kill_testnode="yes"
+   yarprun --server /testnode > /dev/null 2>&1 &
+   sleep 1
 fi
 
 testrunner --verbose --suit test.xml > output.txt
 
 if [ "$kill_yarp" == "yes" ]; then
    killall yarpserver
+fi
+
+if [ "$kill_testnode" == "yes" ]; then
+   killall yarprun
 fi
 
 cd build
