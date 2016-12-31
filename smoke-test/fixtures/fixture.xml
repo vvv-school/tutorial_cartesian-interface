@@ -30,7 +30,7 @@
         <node>localhost</node>
     </module>
         <module>
-        <name>tutorial-cartesian-interface</name>        
+        <name>tutorial_cartesian-interface</name>        
         <dependencies>
             <port timeout="10">/icubSim/cartesianController/left_arm/state:o</port>
         </dependencies>

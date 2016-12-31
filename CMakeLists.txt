@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 2.8.9)
 
 # produce the cmake var PROJECT_NAME
-project(tutorial-cartesian-interface)
+project(tutorial_cartesian-interface)
 
 # mandatory use of these packages
 find_package(YARP REQUIRED)
@@ -33,4 +33,3 @@ icubcontrib_add_uninstall_target()
 
 file(GLOB scripts ${CMAKE_SOURCE_DIR}/app/scripts/*.xml)
 yarp_install(FILES ${scripts} DESTINATION ${ICUBCONTRIB_APPLICATIONS_INSTALL_DIR})
-
