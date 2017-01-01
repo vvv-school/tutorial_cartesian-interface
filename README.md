@@ -10,4 +10,4 @@ move its left hand to follow a circular path, as shown in the animation below.
 
 ![output](/misc/output.gif)
 
-## [Instructions to complete the tutorial]
+## [Instructions to complete the tutorial](https://github.com/vvv-school/vvv-school.github.io/blob/master/instructions/how-to-complete-assigments.md)
