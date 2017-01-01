@@ -9,7 +9,9 @@ if [ $# -gt 1 ]; then
     cd $1
 fi
 
-rm build -rf
+if [ -d build ]; then 
+    rm build -rf
+fi
 mkdir build && cd build
 cmake -DCMAKE_BUILD_TYPE=Release ../../
 if [ $? -ne 0 ]; then
@@ -21,6 +23,9 @@ if [ $? -ne 0 ]; then
 fi
 cd $dir
 
+if [ -d build-test ]; then 
+    rm build-test -rf
+fi
 rm build-test -rf
 mkdir build-test && cd build-test
 cmake -DCMAKE_BUILD_TYPE=Release ../
