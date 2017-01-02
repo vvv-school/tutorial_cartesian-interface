@@ -20,7 +20,7 @@ build_dir=$(pwd)
 
 git clone https://github.com/vvv-school/vvv-school.github.io.git
 if [ $? -eq 0 ]; then        
-    bash -c "./vvv-school.github.io/scripts/smoke-test.sh $build_dir $code_dir $test_dir"
+    ./vvv-school.github.io/scripts/smoke-test.sh $build_dir $code_dir $test_dir
     ret=$?
 else
     echo -e "${red}GitHub seems unreachable${nc}"
