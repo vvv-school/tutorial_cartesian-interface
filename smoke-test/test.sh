@@ -9,14 +9,14 @@ red='\033[1;31m'
 green='\033[1;32m'
 nc='\033[0m'
 
-code_dir=$(pwd)/../
-test_dir=$(pwd)
-
 if [ -d build ]; then
     rm build -rf
 fi
-mkdir build && cd build
-build_dir=$(pwd)
+mkdir build
+
+build_dir=$(pwd)/build
+code_dir=$(pwd)/../
+test_dir=$(pwd)
 
 git clone --depth 1 -b master https://github.com/vvv-school/vvv-school.github.io.git helpers
 if [ $? -eq 0 ]; then        
