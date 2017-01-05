@@ -104,7 +104,7 @@ public:
         
         RTF_TEST_REPORT(Asserter::format("mean distance from the center = %g [m]",mean_x));
         RTF_TEST_REPORT(Asserter::format("stdev distance from the center = %g [m]",stdev_x));        
-        RTF_TEST_CHECK(stdev_x<0.01,"Roundness Test Passed!");
+        RTF_TEST_CHECK(stdev_x<0.015,"Roundness Test Passed!");
     }
 };
 
