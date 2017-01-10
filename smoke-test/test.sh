@@ -25,7 +25,7 @@ if [ $? -eq 0 ]; then
         ./helpers/scripts/smoke-test-${test_type}.sh $build_dir $code_dir $test_dir
         ret=$?
     else
-        echo -e "${red}test-type is missing!{nc}"
+        echo -e "${red}test-type is missing!${nc}"
         ret=4
     fi
 else
