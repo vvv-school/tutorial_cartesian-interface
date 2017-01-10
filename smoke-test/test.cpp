@@ -47,8 +47,8 @@ public:
        
         Property option;
         option.put("device","cartesiancontrollerclient");
-        option.put("remote",("/"+robot+"/"+"cartesianController/left_arm"));
-        option.put("local",("/"+getName()+"/cartesian"));
+        option.put("remote","/"+robot+"/"+"cartesianController/left_arm");
+        option.put("local","/"+getName()+"/cartesian");
 
         RTF_TEST_REPORT("Opening Clients");        
         RTF_ASSERT_ERROR_IF(drvCartArm.open(option),"Unable to open Clients!");
