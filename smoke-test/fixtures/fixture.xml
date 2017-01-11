@@ -6,11 +6,8 @@
         <author email="ugo.pattacini@iit.it">Ugo Pattacini</author>
     </authors>
     <module>
-      <name>iCub_SIM</name>
-      <ensure>
-          <wait>5</wait>
-      </ensure>
-     <node>testnode</node>
+        <name>iCub_SIM</name>
+        <node>testnode</node>
     </module>
     <module>
         <name>yarprobotinterface</name>
