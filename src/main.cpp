@@ -65,9 +65,28 @@ public:
         Property option("(device cartesiancontrollerclient)");
         option.put("remote","/icubSim/cartesianController/left_arm");
         option.put("local","/cartesian_client/left_arm");
-
-        if (!client.open(option))
+        
+        // let's give the controller some time to warm up
+        bool ok=false;
+        double t0=Time::now();
+        while (Time::now()-t0<5.0)
+        {
+            // this might fail if controller
+            // is not connected to solver yet
+            if (client.open(option))
+            {
+                ok=true;
+                break;
+            }
+            
+            Time::delay(1.0);
+        }
+        
+        if (!ok)
+        {
+            yError()<<"Unable to open the Cartesian Controller";
             return false;
+        }
 
         // open the view
         client.view(arm);

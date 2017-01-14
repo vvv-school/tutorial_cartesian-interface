@@ -30,7 +30,6 @@
         <name>tutorial_cartesian-interface</name>
         <dependencies>
             <port timeout="10">/icubSim/cartesianController/left_arm/state:o</port>
-            <port timeout="10">/cartesianSolver/left_arm/rpc</port>
         </dependencies>
         <node>testnode</node>
     </module>
