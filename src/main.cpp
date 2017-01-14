@@ -69,7 +69,7 @@ public:
         // let's give the controller some time to warm up
         bool ok=false;
         double t0=Time::now();
-        while (Time::now()-t0<5.0)
+        while (Time::now()-t0<10.0)
         {
             // this might fail if controller
             // is not connected to solver yet
