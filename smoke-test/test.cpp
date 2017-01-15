@@ -50,8 +50,24 @@ public:
         option.put("remote","/"+robot+"/"+"cartesianController/left_arm");
         option.put("local","/"+getName()+"/cartesian");
 
-        RTF_TEST_REPORT("Opening Clients");        
-        RTF_ASSERT_ERROR_IF(drvCartArm.open(option),"Unable to open Clients!");
+        RTF_TEST_REPORT("Opening Clients");
+        // let's give the controller some time to warm up
+        bool ok=false;
+        double t0=Time::now();
+        while (Time::now()-t0<10.0)
+        {
+            // this might fail if controller
+            // is not connected to solver yet
+            if (drvCartArm.open(option))
+            {                
+                ok=true;
+                break;
+            }
+            
+            Time::delay(1.0);
+        }
+        
+        RTF_ASSERT_ERROR_IF(ok,"Unable to open Clients!");
 
         return true;
     }
