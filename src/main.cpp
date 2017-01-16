@@ -62,7 +62,8 @@ public:
         // 3 - the cartesian solver for the left arm is running too
         //     (launch: iKinCartesianSolver --context simCartesianControl --part left_arm)
         //
-        Property option("(device cartesiancontrollerclient)");
+        Property option;
+        option.put("device","cartesiancontrollerclient");
         option.put("remote","/icubSim/cartesianController/left_arm");
         option.put("local","/cartesian_client/left_arm");
         
