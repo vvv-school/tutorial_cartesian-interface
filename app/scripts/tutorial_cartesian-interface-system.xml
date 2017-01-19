@@ -22,6 +22,7 @@
       <parameters>--context simCartesianControl --config no_legs.xml</parameters>
       <dependencies>
           <port timeout="20">/yarplogger</port>
+          <port timeout="20">/icubSim/torso/state:o</port>
           <port timeout="20">/icubSim/left_arm/state:o</port>
           <port timeout="20">/icubSim/right_arm/state:o</port>
       </dependencies>
@@ -34,6 +35,7 @@
       <parameters>--context simCartesianControl --part left_arm</parameters>
       <dependencies>
           <port timeout="20">/yarplogger</port>
+          <port timeout="20">/icubSim/torso/state:o</port>
           <port timeout="20">/icubSim/left_arm/state:o</port>
       </dependencies>
       <environment>YARP_FORWARD_LOG_ENABLE=1</environment>
