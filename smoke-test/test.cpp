@@ -8,8 +8,10 @@
 #include <cmath>
 #include <algorithm>
 
-#include <rtf/yarp/YarpTestCase.h>
+#include <yarp/rtf/TestCase.h>
 #include <rtf/dll/Plugin.h>
+#include <rtf/TestAssert.h>
+
 
 #include <yarp/os/all.h>
 #include <yarp/dev/all.h>
@@ -24,14 +26,14 @@ using namespace yarp::sig;
 using namespace yarp::math;
 
 /**********************************************************************/
-class TestTutorialCartesianInterface : public YarpTestCase
+class TestTutorialCartesianInterface : public yarp::rtf::TestCase
 {
     PolyDriver drvCartArm;
 
 public:
     /******************************************************************/
     TestTutorialCartesianInterface() :
-        YarpTestCase("TestTutorialCartesianInterface")
+        yarp::rtf::TestCase("TestTutorialCartesianInterface")
     {
     }
     
