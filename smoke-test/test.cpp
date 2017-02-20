@@ -19,21 +19,20 @@
 
 using namespace std;
 using namespace RTF;
-using namespace yarp::rtf;
 using namespace yarp::os;
 using namespace yarp::dev;
 using namespace yarp::sig;
 using namespace yarp::math;
 
 /**********************************************************************/
-class TestTutorialCartesianInterface : public TestCase
+class TestTutorialCartesianInterface : public yarp::rtf::TestCase
 {
     PolyDriver drvCartArm;
 
 public:
     /******************************************************************/
     TestTutorialCartesianInterface() :
-        TestCase("TestTutorialCartesianInterface")
+        yarp::rtf::TestCase("TestTutorialCartesianInterface")
     {
     }
     
