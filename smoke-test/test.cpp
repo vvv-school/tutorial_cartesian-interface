@@ -114,7 +114,7 @@ public:
 
         mean_v/=N;
         mean_x/=N;
-        stdev_x=sqrt(stdev_x/N-mean_x*mean_x);        
+        stdev_x=sqrt(stdev_x/(N-1)-mean_x*mean_x);  // unbiased estimator
         
         RTF_TEST_REPORT(Asserter::format("velocity mean = %g [m]",mean_v));
         RTF_TEST_CHECK(mean_v>0.01,"Unsteadiness Test Passed!");
