@@ -68,7 +68,7 @@ public:
             Time::delay(1.0);
         }
         
-        RTF_ASSERT_ERROR_IF(ok,"Unable to open Clients!");
+        RTF_ASSERT_ERROR_IF_FALSE(ok,"Unable to open Clients!");
 
         return true;
     }
@@ -77,7 +77,7 @@ public:
     virtual void tearDown()
     {
         RTF_TEST_REPORT("Closing Clients");
-        RTF_ASSERT_ERROR_IF(drvCartArm.close(),"Unable to close Clients!");
+        RTF_ASSERT_ERROR_IF_FALSE(drvCartArm.close(),"Unable to close Clients!");
     }
     
     /******************************************************************/
