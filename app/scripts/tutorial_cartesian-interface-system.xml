@@ -27,6 +27,9 @@
           <port timeout="20">/icubSim/right_arm/state:o</port>
       </dependencies>
       <environment>YARP_FORWARD_LOG_ENABLE=1</environment>
+      <ensure>
+          <wait>2</wait>
+      </ensure>
       <node>localhost</node>
   </module>
 
@@ -39,7 +42,10 @@
           <port timeout="20">/icubSim/left_arm/state:o</port>
       </dependencies>
       <environment>YARP_FORWARD_LOG_ENABLE=1</environment>
-      <node>localhost</node>
+      <node>localhost</node>  
+      <ensure>
+          <wait>2</wait>
+      </ensure>
   </module>
 
 </application>
