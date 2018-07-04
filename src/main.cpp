@@ -5,11 +5,12 @@
 //
 // Author: Ugo Pattacini - <ugo.pattacini@iit.it>
 
+#include <cstdlib>
 #include <cmath>
 
 #include <yarp/os/Network.h>
 #include <yarp/os/RFModule.h>
-#include <yarp/os/RateThread.h>
+#include <yarp/os/PeriodicThread.h>
 #include <yarp/os/Time.h>
 #include <yarp/os/LogStream.h>
 #include <yarp/sig/Vector.h>
@@ -29,8 +30,7 @@ using namespace yarp::dev;
 using namespace yarp::sig;
 using namespace yarp::math;
 
-
-class CtrlThread: public RateThread
+class CtrlThread : public PeriodicThread
 {
 protected:
     PolyDriver         client;
@@ -46,85 +46,85 @@ protected:
     double t1;
 
 public:
-    CtrlThread() : RateThread(1000) { }
+  CtrlThread() : PeriodicThread(1.0) {}
 
-    virtual bool threadInit()
-    {
-        // open a client interface to connect to the cartesian server of the simulator
-        // we suppose that:
-        //
-        // 1 - the iCub simulator is running
-        //     (launch: iCub_SIM)
-        //
-        // 2 - the cartesian server is running
-        //     (launch: yarprobotinterface --context simCartesianControl)
-        //
-        // 3 - the cartesian solver for the left arm is running too
-        //     (launch: iKinCartesianSolver --context simCartesianControl --part left_arm)
-        //
-        Property option;
-        option.put("device","cartesiancontrollerclient");
-        option.put("remote","/icubSim/cartesianController/left_arm");
-        option.put("local","/cartesian_client/left_arm");
-        
-        // let's give the controller some time to warm up
-        bool ok=false;
-        double t0=Time::now();
-        while (Time::now()-t0<10.0)
-        {
-            // this might fail if controller
-            // is not connected to solver yet
-            if (client.open(option))
-            {
-                ok=true;
-                break;
-            }
-            
-            Time::delay(1.0);
-        }
-        
-        if (!ok)
-        {
-            yError()<<"Unable to open the Cartesian Controller";
-            return false;
-        }
+  virtual bool threadInit()
+  {
+      // open a client interface to connect to the cartesian server of the simulator
+      // we suppose that:
+      //
+      // 1 - the iCub simulator is running
+      //     (launch: iCub_SIM)
+      //
+      // 2 - the cartesian server is running
+      //     (launch: yarprobotinterface --context simCartesianControl)
+      //
+      // 3 - the cartesian solver for the left arm is running too
+      //     (launch: iKinCartesianSolver --context simCartesianControl --part left_arm)
+      //
+      Property option;
+      option.put("device", "cartesiancontrollerclient");
+      option.put("remote", "/icubSim/cartesianController/left_arm");
+      option.put("local", "/cartesian_client/left_arm");
 
-        // open the view
-        client.view(arm);
+      // let's give the controller some time to warm up
+      bool ok = false;
+      double t0 = Time::now();
+      while (Time::now() - t0 < 10.0)
+      {
+          // this might fail if controller
+          // is not connected to solver yet
+          if (client.open(option))
+          {
+              ok = true;
+              break;
+          }
 
-        // latch the controller context in order to preserve
-        // it after closing the module
-        // the context contains the dofs status, the tracking mode,
-        // the resting positions, the limits and so on.
-        arm->storeContext(&startup_context_id);
+          Time::delay(1.0);
+      }
 
-        // set trajectory time
-        arm->setTrajTime(1.0);
+      if (!ok)
+      {
+          yError() << "Unable to open the Cartesian Controller";
+          return false;
+      }
 
-        // get the torso dofs
-        Vector newDof, curDof;
-        arm->getDOF(curDof);
-        newDof=curDof;
+      // open the view
+      client.view(arm);
 
-        // enable the torso yaw and pitch
-        // disable the torso roll
-        newDof[0]=1;
-        newDof[1]=0;
-        newDof[2]=1;
+      // latch the controller context in order to preserve
+      // it after closing the module
+      // the context contains the dofs status, the tracking mode,
+      // the resting positions, the limits and so on.
+      arm->storeContext(&startup_context_id);
 
-        // send the request for dofs reconfiguration
-        arm->setDOF(newDof,curDof);
+      // set trajectory time
+      arm->setTrajTime(1.0);
 
-        // impose some restriction on the torso pitch
-        limitTorsoPitch();
+      // get the torso dofs
+      Vector newDof, curDof;
+      arm->getDOF(curDof);
+      newDof = curDof;
 
-        xd.resize(3);
-        od.resize(4);
+      // enable the torso yaw and pitch
+      // disable the torso roll
+      newDof[0] = 1;
+      newDof[1] = 0;
+      newDof[2] = 1;
 
-        yInfo()<<"Thread started successfully";
-        t=t0=t1=Time::now();        
+      // send the request for dofs reconfiguration
+      arm->setDOF(newDof, curDof);
 
-        return true;
+      // impose some restriction on the torso pitch
+      limitTorsoPitch();
+
+      xd.resize(3);
+      od.resize(4);
+
+      yInfo() << "Thread started successfully";
+      t = t0 = t1 = Time::now();
+
+      return true;
     }
 
     virtual void run()
@@ -234,8 +234,8 @@ public:
         // retrieve command line options
         double period=rf.check("period",Value(CTRL_THREAD_PER)).asDouble();
 
-        // set the thread rate that is an integer accounting for [ms]
-        thr.setRate(int(period*1000.0));
+        // set the thread period in [s]
+        thr.setPeriod(period);
 
         return thr.start();
     }
@@ -266,7 +266,7 @@ int main(int argc, char *argv[])
     if (!yarp.checkNetwork())
     {
         yError()<<"YARP doesn't seem to be available";
-        return 1;
+        return EXIT_FAILURE;
     }
 
     CtrlModule mod;
