@@ -8,31 +8,31 @@
 #include <cmath>
 #include <algorithm>
 
-#include <rtf/dll/Plugin.h>
-#include <rtf/TestAssert.h>
+#include <robottestingframework/dll/Plugin.h>
+#include <robottestingframework/TestAssert.h>
 
-#include <yarp/rtf/TestCase.h>
+#include <yarp/robottestingframework/TestCase.h>
 #include <yarp/os/all.h>
 #include <yarp/dev/all.h>
 #include <yarp/sig/all.h>
 #include <yarp/math/Math.h>
 
 using namespace std;
-using namespace RTF;
+using namespace robottestingframework;
 using namespace yarp::os;
 using namespace yarp::dev;
 using namespace yarp::sig;
 using namespace yarp::math;
 
 /**********************************************************************/
-class TestTutorialCartesianInterface : public yarp::rtf::TestCase
+class TestTutorialCartesianInterface : public yarp::robottestingframework::TestCase
 {
     PolyDriver drvCartArm;
 
 public:
     /******************************************************************/
     TestTutorialCartesianInterface() :
-        yarp::rtf::TestCase("TestTutorialCartesianInterface")
+        yarp::robottestingframework::TestCase("TestTutorialCartesianInterface")
     {
     }
     
@@ -51,7 +51,7 @@ public:
         option.put("remote","/"+robot+"/"+"cartesianController/left_arm");
         option.put("local","/"+getName()+"/cartesian");
 
-        RTF_TEST_REPORT("Opening Clients");
+        ROBOTTESTINGFRAMEWORK_TEST_REPORT("Opening Clients");
         // let's give the controller some time to warm up
         bool ok=false;
         double t0=Time::now();
@@ -68,7 +68,7 @@ public:
             Time::delay(1.0);
         }
         
-        RTF_ASSERT_ERROR_IF_FALSE(ok,"Unable to open Clients!");
+        ROBOTTESTINGFRAMEWORK_ASSERT_ERROR_IF_FALSE(ok,"Unable to open Clients!");
 
         return true;
     }
@@ -76,8 +76,8 @@ public:
     /******************************************************************/
     virtual void tearDown()
     {
-        RTF_TEST_REPORT("Closing Clients");
-        RTF_ASSERT_ERROR_IF_FALSE(drvCartArm.close(),"Unable to close Clients!");
+        ROBOTTESTINGFRAMEWORK_TEST_REPORT("Closing Clients");
+        ROBOTTESTINGFRAMEWORK_ASSERT_ERROR_IF_FALSE(drvCartArm.close(),"Unable to close Clients!");
     }
     
     /******************************************************************/
@@ -96,7 +96,7 @@ public:
 
         Time::delay(5.0);        
         
-        RTF_TEST_REPORT("Checking the trajectory of the end-effector");
+        ROBOTTESTINGFRAMEWORK_TEST_REPORT("Checking the trajectory of the end-effector");
         for (double t0=Time::now(); Time::now()-t0<10.0; N++)
         {
             Vector x,o,xdot,qdot;
@@ -116,13 +116,13 @@ public:
         mean_x/=N;
         stdev_x=sqrt(stdev_x/N-mean_x*mean_x);
         
-        RTF_TEST_REPORT(Asserter::format("velocity mean = %g [m]",mean_v));
-        RTF_TEST_CHECK(mean_v>0.01,"Unsteadiness Test Passed!");
+        ROBOTTESTINGFRAMEWORK_TEST_REPORT(Asserter::format("velocity mean = %g [m]",mean_v));
+        ROBOTTESTINGFRAMEWORK_TEST_CHECK(mean_v>0.01,"Unsteadiness Test Passed!");
         
-        RTF_TEST_REPORT(Asserter::format("mean distance from the center = %g [m]",mean_x));
-        RTF_TEST_REPORT(Asserter::format("stdev distance from the center = %g [m]",stdev_x));        
-        RTF_TEST_CHECK(stdev_x<0.015,"Roundness Test Passed!");
+        ROBOTTESTINGFRAMEWORK_TEST_REPORT(Asserter::format("mean distance from the center = %g [m]",mean_x));
+        ROBOTTESTINGFRAMEWORK_TEST_REPORT(Asserter::format("stdev distance from the center = %g [m]",stdev_x));        
+        ROBOTTESTINGFRAMEWORK_TEST_CHECK(stdev_x<0.015,"Roundness Test Passed!");
     }
 };
 
-PREPARE_PLUGIN(TestTutorialCartesianInterface)
+ROBOTTESTINGFRAMEWORK_PREPARE_PLUGIN(TestTutorialCartesianInterface)
