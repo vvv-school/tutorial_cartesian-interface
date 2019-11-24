@@ -3,7 +3,7 @@ Tutorial on Cartesian Interface
 
 [![Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://www.gitpod.io/docs/10_getting_started)
 
-This tutorial will guide you to the use of [Cartesian Interface](http://wiki.icub.org/iCub/main/dox/html/icub_cartesian_interface.html)
+This tutorial will guide you to the use of [Cartesian Interface](http://www.icub.org/doc/icub-main/icub_cartesian_interface.html)
 component that enables the control of the iCub arms in the Operational Space.
 
 # Tutorial
