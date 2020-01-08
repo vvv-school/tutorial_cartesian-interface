@@ -68,7 +68,8 @@ public:
             Time::delay(1.0);
         }
         
-        ROBOTTESTINGFRAMEWORK_ASSERT_ERROR_IF_FALSE(ok,"Unable to open Clients!");
+        if (!ok)
+            ROBOTTESTINGFRAMEWORK_ASSERT_FAIL("Unable to open Clients!");
 
         return true;
     }
@@ -77,7 +78,8 @@ public:
     virtual void tearDown()
     {
         ROBOTTESTINGFRAMEWORK_TEST_REPORT("Closing Clients");
-        ROBOTTESTINGFRAMEWORK_ASSERT_ERROR_IF_FALSE(drvCartArm.close(),"Unable to close Clients!");
+        if (!drvCartArm.close())
+            ROBOTTESTINGFRAMEWORK_ASSERT_FAIL("Unable to close Clients!");
     }
     
     /******************************************************************/
