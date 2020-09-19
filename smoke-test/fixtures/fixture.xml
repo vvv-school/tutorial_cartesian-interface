@@ -6,7 +6,12 @@
         <author email="ugo.pattacini@iit.it">Ugo Pattacini</author>
     </authors>
     <module>
-        <name>iCub_SIM</name>
+        <name>gzserver</name>
+        <parameters>icub-world.sdf</parameters>
+        <node>testnode</node>
+    </module>
+    <module>
+        <name>gzclient</name>
         <node>testnode</node>
     </module>
     <module>

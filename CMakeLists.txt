@@ -18,6 +18,8 @@ include(ICUBcontribOptions)
 # specify to install in $ICUBcontrib_DIR/bin
 icubcontrib_set_default_prefix()
 
+add_subdirectory(gazebo)
+
 add_executable(${PROJECT_NAME} ${CMAKE_SOURCE_DIR}/src/main.cpp)
 target_compile_definitions(${PROJECT_NAME} PRIVATE _USE_MATH_DEFINES)
 target_link_libraries(${PROJECT_NAME} ${YARP_LIBRARIES})
