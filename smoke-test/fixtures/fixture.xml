@@ -7,7 +7,7 @@
     </authors>
     <module>
         <name>gzserver</name>
-        <parameters>icub-world.sdf</parameters>
+        <parameters>tutorial_cartesian-interface.sdf</parameters>
         <node>testnode</node>
     </module>
     <module>
