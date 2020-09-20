@@ -122,7 +122,7 @@ public:
         ROBOTTESTINGFRAMEWORK_TEST_CHECK(mean_v>0.01,"Unsteadiness Test Passed!");
         
         ROBOTTESTINGFRAMEWORK_TEST_REPORT(Asserter::format("mean distance from the center = %g [m]",mean_x));
-        ROBOTTESTINGFRAMEWORK_TEST_REPORT(Asserter::format("stdev distance from the center = %g [m]",stdev_x));        
+        ROBOTTESTINGFRAMEWORK_TEST_REPORT(Asserter::format("standard deviation = %g [m]",stdev_x));        
         ROBOTTESTINGFRAMEWORK_TEST_CHECK(stdev_x<0.015,"Roundness Test Passed!");
     }
 };
