@@ -25,7 +25,7 @@
 
   <module>
       <name>yarprobotinterface</name>
-      <parameters>--context simCartesianControl --config no_legs.xml</parameters>
+      <parameters>--context gazeboCartesianControl --config no_legs.xml</parameters>
       <dependencies>
           <port timeout="20">/yarplogger</port>
           <port timeout="20">/icubSim/torso/state:o</port>
@@ -41,7 +41,7 @@
 
   <module>
       <name>iKinCartesianSolver</name>
-      <parameters>--context simCartesianControl --part left_arm</parameters>
+      <parameters>--context gazeboCartesianControl --part left_arm</parameters>
       <dependencies>
           <port timeout="20">/yarplogger</port>
           <port timeout="20">/icubSim/torso/state:o</port>
