@@ -232,7 +232,7 @@ public:
     virtual bool configure(ResourceFinder &rf)
     {
         // retrieve command line options
-        double period=rf.check("period",Value(CTRL_THREAD_PER)).asDouble();
+        double period=rf.check("period",Value(CTRL_THREAD_PER)).asFloat64();
 
         // set the thread period in [s]
         thr.setPeriod(period);
